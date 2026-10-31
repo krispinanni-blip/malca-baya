@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>מלכה באיה | Malca Baya — להקת הסרף אנד רול</title>
 <meta name="description" content="מלכה באיה — להקת הסרף אנד רול. שירים, הופעות, וידאו והזמנת הופעות.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700;900&family=Bowlby+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="a11y.css">
+<script src="a11y.js"></script>
 <style>
 :root{
   --sand:#f5efe4;
@@ -145,6 +145,10 @@ section{padding:110px 0;position:relative}
 .knobs button{width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ink);background:var(--sand);display:grid;place-items:center;transition:transform .2s}
 .knobs button:hover{transform:rotate(-20deg)}
 .knobs svg{width:18px}
+.yt-note{font-size:.78rem;padding:10px 6px 0;line-height:1.5}
+.yt-note a{text-decoration:underline}
+.legal-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:14px;font-size:.9rem}
+.legal-links a{text-decoration:underline;opacity:.85}
 .hit{display:inline-block;background:var(--red);color:var(--ink);font-weight:700;font-size:.8rem;padding:3px 12px;border-radius:999px;border:2px solid var(--ink);transform:rotate(-4deg)}
 
 .tracks{list-style:none;counter-reset:t;display:grid;gap:10px}
@@ -239,6 +243,7 @@ footer small{opacity:.7}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">דילוג לתוכן הראשי</a>
 <div class="paper" aria-hidden="true"></div>
 <div id="loader" aria-hidden="true">
   <svg viewBox="0 0 120 60" fill="none" stroke="#2f3550" stroke-width="4" stroke-linecap="round"><path d="M4 40c14-16 30-16 44 0s30 16 44 0 22-12 24-10" /><path d="M4 52c14-12 30-12 44 0s30 12 44 0" stroke="#dfa682"/></svg>
@@ -278,7 +283,7 @@ footer small{opacity:.7}
   </nav>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
 <!-- HERO -->
 <section class="hero" aria-label="פתיח">
   <div class="rays" aria-hidden="true"></div>
@@ -324,8 +329,9 @@ footer small{opacity:.7}
             <button id="next" aria-label="השיר הבא"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6v12L9 12z"/></svg></button>
           </div>
         </div>
+        <p class="yt-note">הסרטונים מוצגים מיוטיוב במצב פרטיות מוגברת, ונטענים רק אחרי לחיצה. בלחיצה הדפדפן מתחבר לשרתי Google. <a href="privacy.html">פרטים במדיניות הפרטיות</a></p>
       </div>
-      <ul class="tracks" id="tracks"></ul>
+      <ul class="tracks" id="tracks" aria-label="רשימת שירים"></ul>
     </div>
   </div>
 </section>
@@ -366,7 +372,7 @@ footer small{opacity:.7}
 <section id="gallery">
   <div class="wrap">
     <div class="sec-head reveal"><h2>חוף <span>לחוף</span></h2><p>גררו הצידה. <span class="ph">[יוחלף בתמונות אמיתיות של הלהקה]</span></p></div>
-    <div class="gallery" id="gal"></div>
+    <div class="gallery" id="gal" tabindex="0" role="region" aria-label="גלריית תמונות — אפשר לגלול עם החיצים"></div>
   </div>
 </section>
 
@@ -390,7 +396,7 @@ footer small{opacity:.7}
         <select id="f-type" name="type"><option>מסיבת חוף</option><option>אירוע פרטי</option><option>אירוע חברה</option><option>פסטיבל</option><option>מועדון / הופעה</option></select></div>
       <div><label for="f-date">תאריך משוער</label><input id="f-date" name="date" type="date"></div>
       <div class="full"><label for="f-msg">ספרו לנו על האירוע</label><textarea id="f-msg" name="msg"></textarea></div>
-      <div class="full consent"><input type="checkbox" id="f-ok" required><label for="f-ok">אני מסכים/ה שהפרטים ישמשו רק לצורך חזרה אליי בנוגע להזמנה.</label></div>
+      <div class="full consent"><input type="checkbox" id="f-ok" required><label for="f-ok">אני מסכים/ה שהפרטים ישמשו רק לצורך חזרה אליי בנוגע להזמנה, כמפורט ב<a href="privacy.html" style="text-decoration:underline">מדיניות הפרטיות</a>.</label></div>
       <div class="full"><button class="btn yellow" type="submit"><svg><use href="#i-mail"/></svg>שליחה במייל</button>
         <p class="form-note">הלחיצה פותחת את תוכנת המייל שלכם עם הפרטים, לשליחה ל־malcabaya@gmail.com.</p></div>
     </form>
@@ -410,6 +416,7 @@ footer small{opacity:.7}
       <a href="tel:+972543004841" aria-label="התקשרו ללהקה 054-300-4841"><svg><use href="#i-phone"/></svg><span dir="ltr">054-300-4841</span></a>
       <a href="mailto:malcabaya@gmail.com" aria-label="שליחת מייל ללהקה"><svg><use href="#i-mail"/></svg>מייל</a>
     </div>
+    <nav class="legal-links" aria-label="מידע משפטי"><a href="accessibility.html">הצהרת נגישות</a><a href="privacy.html">מדיניות פרטיות</a><a href="terms.html">תנאי שימוש</a></nav>
     <small>© 2026 מלכה באיה · Malca Baya · כל הזכויות שמורות</small>
   </div>
 </footer>
@@ -474,13 +481,15 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 const watch=()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
 
 /* waves canvas */
+const root=document.documentElement,rm=matchMedia("(prefers-reduced-motion: reduce)");
 let cur_i=0,playing=false;
 const cv=document.getElementById('waves'),g=cv.getContext('2d');let W,H,DPR=Math.min(devicePixelRatio||1,2),tt=0,boost=0;
 function size(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;g.setTransform(DPR,0,0,DPR,0,0)}
 size();addEventListener('resize',size);
 const LAYERS=[['#cfe0ea',.18,.9],['#9fbad0',.32,1.2],['#b9aecb',.5,1.5],['#b3cbb9',.66,1.9],['#6f8fb0',.8,2.3]];
 function drawWaves(){
-  tt+=.012;g.clearRect(0,0,W,H);
+  const still=root.classList.contains("a11y-still")||rm.matches;
+  if(!still)tt+=.012;g.clearRect(0,0,W,H);
   const mxr=mx/innerWidth;
   LAYERS.forEach(([col,yy,sp],k)=>{
     const amp=(10+k*5)*(1+boost)+ (1-Math.abs(mxr-.5)*2)*6,base=H*yy;
@@ -527,7 +536,7 @@ document.getElementById('heroPlay').onclick=()=>{document.getElementById('music'
 select(0,false);
 
 /* members */
-const SILH='<svg class="silh" viewBox="0 0 100 120"><circle cx="50" cy="34" r="20" fill="currentColor"/><path d="M12 120c0-30 17-50 38-50s38 20 38 50z" fill="currentColor"/></svg>';
+const SILH='<svg class="silh" viewBox="0 0 100 120" aria-hidden="true"><circle cx="50" cy="34" r="20" fill="currentColor"/><path d="M12 120c0-30 17-50 38-50s38 20 38 50z" fill="currentColor"/></svg>';
 document.getElementById('members').innerHTML=MEMBERS.map((m,i)=>`
 <div class="member reveal" tabindex="0" role="button" aria-label="חבר/ת להקה — ${m.r}">
   <div class="mi">

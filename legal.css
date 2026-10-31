@@ -1,0 +1,19 @@
+:root{--sand:#f5efe4;--ink:#2f3550;--orange:#dfa682;--yellow:#efd595}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sand);color:var(--ink);font-family:'Rubik',system-ui,sans-serif;line-height:1.8;font-size:1.05rem}
+a{color:#2c4f86}
+:focus-visible{outline:3px solid #b5632f;outline-offset:3px}
+header{border-bottom:3px solid var(--ink);background:var(--yellow)}
+header .in{width:min(860px,100% - 32px);margin:auto;display:flex;justify-content:space-between;align-items:center;height:70px}
+.logo{font-family:'Karantina',sans-serif;font-weight:700;font-size:2rem;color:var(--ink);text-decoration:none}
+header a.back{font-weight:700;color:var(--ink)}
+main{width:min(860px,100% - 32px);margin:50px auto 80px}
+h1{font-family:'Karantina',sans-serif;font-size:clamp(3rem,9vw,4.6rem);line-height:.95;margin-bottom:10px}
+.updated{opacity:.75;margin-bottom:30px}
+h2{font-size:1.3rem;margin:34px 0 8px}
+p,li{margin-bottom:10px}
+ul{padding-inline-start:22px}
+.box{background:#fff;border:2.5px solid var(--ink);border-radius:16px;padding:20px 24px;margin:18px 0}
+.ph{color:#a33a2b;font-weight:700}
+footer{text-align:center;padding:30px 16px;border-top:2px solid var(--ink);font-size:.9rem}
+footer nav{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}

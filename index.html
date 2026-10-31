@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מלכה באיה | Malca Baya — להקת הסרף אנד רול</title>
+<meta name="description" content="מלכה באיה — להקת הסרף אנד רול. שירים, הופעות, וידאו והזמנת הופעות.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700;900&family=Bowlby+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#f5efe4;
+  --sand-2:#ece4d4;
+  --ink:#2f3550;
+  --blue:#6f8fb0;
+  --sky:#bcd2e2;
+  --yellow:#efd595;
+  --purple:#a495bd;
+  --green:#9cbba4;
+  --orange:#dfa682;
+  --red:#cf8576;
+  --display:'Karantina','Rubik',sans-serif;
+  --latin:'Bowlby One','Rubik',sans-serif;
+  --body:'Rubik',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--sand);color:var(--ink);font-family:var(--body);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.wrap{width:min(1200px,100% - 32px);margin-inline:auto}
+
+/* riso paper texture + halftone helpers */
+.paper{position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.12;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.halftone{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(47,53,80,.12) 1.2px,transparent 1.4px);background-size:7px 7px}
+
+/* loader */
+#loader{position:fixed;inset:0;background:var(--yellow);z-index:200;display:grid;place-items:center;transition:transform .9s cubic-bezier(.7,0,.2,1)}
+#loader.done{transform:translateY(-100%)}
+#loader svg{width:120px;animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(-4deg)}}
+
+/* cursor */
+.cursor{position:fixed;top:0;left:0;width:30px;height:30px;border:2px solid var(--ink);border-radius:50%;pointer-events:none;z-index:150;transition:width .25s,height .25s,background .25s,margin .25s}
+.cursor.big{width:70px;height:70px;margin:-20px 0 0 -20px;background:rgba(239,213,149,.45);border-color:var(--orange)}
+@media (hover:none){.cursor{display:none}}
+
+/* nav */
+header{position:fixed;inset-inline:0;top:0;z-index:100;transition:background .4s,box-shadow .4s}
+header.scrolled{background:rgba(244,234,211,.92);backdrop-filter:blur(10px);box-shadow:0 2px 0 var(--ink)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:2.1rem;line-height:1}
+.logo svg{width:30px;color:var(--orange)}
+.nav ul{display:flex;gap:26px;list-style:none;font-weight:500}
+.nav ul a{position:relative}
+.nav ul a::after{content:"";position:absolute;inset-inline:0;bottom:-4px;height:3px;background:var(--orange);border-radius:3px;transform:scaleX(0);transition:transform .3s}
+.nav ul a:hover::after{transform:scaleX(1)}
+.nav-social{display:flex;gap:8px}
+.ico{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;transition:transform .25s,background .25s,color .25s}
+.ico svg{width:18px;height:18px}
+.ico:hover{transform:translateY(-3px) rotate(-6deg);background:var(--ink);color:var(--yellow)}
+.burger{display:none;width:44px;height:44px;position:relative}
+.burger span{position:absolute;inset-inline:9px;height:3px;border-radius:3px;background:var(--ink);transition:.3s}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:26px}
+.burger.open span:nth-child(1){top:20px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){top:20px;transform:rotate(-45deg)}
+@media(max-width:900px){
+  .nav ul,.nav-social{display:none}
+  .burger{display:block}
+  .nav ul.open{display:flex;flex-direction:column;position:fixed;inset:74px 0 0;background:var(--yellow);padding:40px 24px;gap:22px;font-family:var(--display);font-size:3rem;font-weight:700}
+}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border-radius:999px;border:2.5px solid var(--ink);font-weight:700;background:var(--sand);box-shadow:4px 4px 0 var(--ink);transition:transform .2s,box-shadow .2s,background .2s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.yellow{background:var(--yellow)}
+.btn.orange{background:var(--orange);color:var(--ink)}
+.btn svg{width:18px;height:18px}
+
+/* hero */
+.hero{position:relative;min-height:100svh;overflow:hidden;background:linear-gradient(180deg,var(--sky) 0%,#bfdcf5 38%,var(--sand) 70%);display:grid;place-items:center;text-align:center}
+.sun{position:absolute;left:50%;top:44%;width:min(70vw,620px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);
+  background:repeating-linear-gradient(180deg,var(--yellow) 0 22px,var(--orange) 22px 25px);opacity:.92;
+  -webkit-mask:linear-gradient(#000 55%,transparent 56% 60%,#000 61% 66%,transparent 67% 70%,#000 71% 75%,transparent 76%);
+  mask:linear-gradient(#000 55%,transparent 56% 60%,#000 61% 66%,transparent 67% 70%,#000 71% 75%,transparent 76%);}
+.rays{position:absolute;left:50%;top:44%;width:150vmax;height:150vmax;will-change:transform;transform:translate(-50%,-50%);
+  background:repeating-conic-gradient(rgba(255,255,255,.14) 0 6deg,transparent 6deg 18deg);animation:rot 80s linear infinite;pointer-events:none}
+@keyframes rot{to{transform:translate(-50%,-50%) rotate(360deg)}}
+#waves{position:absolute;inset:auto 0 0;width:100%;height:46%;z-index:2}
+.hero-inner{position:relative;z-index:3;padding:110px 16px 22vh}
+.kicker{display:inline-block;font-family:var(--latin);font-size:.95rem;letter-spacing:.12em;background:var(--ink);color:var(--yellow);padding:6px 16px;border-radius:999px;transform:rotate(-3deg)}
+.crown{display:block;width:clamp(70px,10vw,120px);margin:18px auto -10px;color:var(--orange);filter:drop-shadow(3px 3px 0 var(--ink));animation:bob 3s ease-in-out infinite}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(6rem,22vw,18rem);line-height:.8;position:relative;color:var(--ink)}
+.hero h1 .l{display:block;position:relative}
+.hero h1 .l::before,.hero h1 .l::after{content:attr(data-t);position:absolute;inset:0;mix-blend-mode:multiply;pointer-events:none;transition:transform .15s}
+.hero h1 .l::before{color:var(--red);transform:translate(var(--rx,6px),var(--ry,4px));opacity:.45}
+.hero h1 .l::after{color:var(--blue);transform:translate(calc(var(--rx,6px)*-1),calc(var(--ry,4px)*-1));opacity:.4}
+.hero h1 .l.b{color:var(--purple)}
+.latin{font-family:var(--latin);font-size:clamp(1.1rem,2.6vw,1.8rem);letter-spacing:.06em;margin-top:10px;color:var(--orange);-webkit-text-stroke:1.5px var(--ink)}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+
+/* marquee */
+.marquee{background:var(--ink);color:var(--yellow);overflow:hidden;padding:16px 0;border-block:3px solid var(--ink);position:relative;z-index:4}
+.marquee.tilt{transform:rotate(-2deg);margin:-14px 0;background:var(--orange);color:var(--ink)}
+.mtrack{display:flex;gap:44px;width:max-content;animation:marq 34s linear infinite;font-family:var(--display);font-weight:700;font-size:2.8rem;line-height:1;white-space:nowrap;align-items:center}
+.mtrack .en{font-family:var(--latin);font-size:1.6rem}
+.mtrack svg{width:30px;height:30px}
+.marquee:hover .mtrack{animation-play-state:paused}
+@keyframes marq{to{transform:translateX(50%)}}
+
+/* sections */
+section{padding:110px 0;position:relative}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:50px;flex-wrap:wrap}
+.sec-head h2{font-family:var(--display);font-weight:700;font-size:clamp(3.6rem,9vw,7rem);line-height:.85}
+.sec-head h2 span{color:var(--orange);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+.sec-head p{max-width:420px;font-size:1.05rem}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* music */
+.music{background:#55708f;color:var(--sand);overflow:hidden}
+.music .sec-head h2 span{color:var(--yellow)}
+.music-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:44px;align-items:start}
+@media(max-width:940px){.music-grid{grid-template-columns:1fr}}
+.tv{position:relative;background:var(--yellow);border:3px solid var(--ink);border-radius:22px;padding:16px;box-shadow:10px 10px 0 var(--ink);color:var(--ink);position:sticky;top:100px}
+@media(max-width:940px){.tv{position:relative;top:0}}
+.screen{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:3px solid var(--ink);background:var(--purple);cursor:pointer}
+.screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.poster{position:absolute;inset:0;display:grid;place-items:center;transition:opacity .4s}
+.poster .duo{position:absolute;inset:0;background:radial-gradient(circle at 70% 35%,var(--yellow) 0 18%,transparent 19%),linear-gradient(160deg,var(--purple),var(--blue) 55%,var(--green))}
+.poster .duo::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:
+  radial-gradient(60px 26px at 30px 0,transparent 98%,var(--sand) 100%) 0 0/60px 100% repeat-x}
+.poster .pbtn{position:relative;width:96px;height:96px;border-radius:50%;background:var(--orange);color:var(--ink);display:grid;place-items:center;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transition:transform .3s}
+.screen:hover .pbtn{transform:scale(1.1) rotate(-8deg)}
+.poster .pbtn svg{width:40px;margin-inline-start:6px}
+.poster .ptitle{position:absolute;bottom:14px;inset-inline-start:18px;font-family:var(--display);font-weight:700;font-size:2.6rem;line-height:1;color:var(--ink)}
+.tv-meta{display:flex;justify-content:space-between;align-items:center;padding:14px 6px 2px;gap:10px;flex-wrap:wrap}
+.tv-meta b{font-family:var(--display);font-size:2rem;line-height:1}
+.tv-meta small{font-weight:500}
+.knobs{display:flex;gap:8px}
+.knobs button{width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ink);background:var(--sand);display:grid;place-items:center;transition:transform .2s}
+.knobs button:hover{transform:rotate(-20deg)}
+.knobs svg{width:18px}
+.hit{display:inline-block;background:var(--red);color:var(--ink);font-weight:700;font-size:.8rem;padding:3px 12px;border-radius:999px;border:2px solid var(--ink);transform:rotate(-4deg)}
+
+.tracks{list-style:none;counter-reset:t;display:grid;gap:10px}
+.track{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:12px 16px;border:2.5px solid var(--sand);border-radius:14px;cursor:pointer;transition:background .25s,color .25s,transform .25s}
+.track:hover{background:var(--sand);color:var(--ink);transform:translateX(-6px) rotate(-.6deg)}
+.track .n{font-family:var(--display);font-weight:700;font-size:2rem;line-height:1;opacity:.7}
+.track h3{font-weight:700;font-size:1.1rem;line-height:1.2}
+.track small{opacity:.75;font-size:.8rem}
+.track .d{font-weight:500;font-variant-numeric:tabular-nums}
+.track.active{background:var(--yellow);color:var(--ink);border-color:var(--ink);box-shadow:5px 5px 0 var(--ink)}
+.track .eqm{display:none;gap:3px;align-items:flex-end;height:20px}
+.track .eqm i{width:4px;background:var(--orange);border-radius:2px;animation:eqa .8s infinite}
+.track .eqm i:nth-child(2){animation-delay:.2s}.track .eqm i:nth-child(3){animation-delay:.4s}
+@keyframes eqa{0%,100%{height:5px}50%{height:20px}}
+.track.active.on .eqm{display:flex}.track.active.on .d{display:none}
+
+/* band */
+.members{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1000px){.members{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.members{grid-template-columns:1fr}}
+.member{perspective:1000px;aspect-ratio:3/4;cursor:pointer}
+.mi{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.member.flipped .mi{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:18px;overflow:hidden;backface-visibility:hidden;border:3px solid var(--ink);box-shadow:7px 7px 0 var(--ink)}
+.front .art{position:absolute;inset:0;transition:transform .8s}
+.member:hover .art{transform:scale(1.07)}
+.front .silh{position:absolute;inset:auto 0 0;margin:auto;width:70%;color:var(--ink);opacity:.85;mix-blend-mode:multiply}
+.front .tag{position:absolute;top:14px;inset-inline-start:14px;background:var(--sand);border:2px solid var(--ink);border-radius:999px;padding:2px 12px;font-weight:700;font-size:.85rem}
+.front .flip{position:absolute;top:12px;inset-inline-end:12px;width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--yellow);display:grid;place-items:center;font-weight:900}
+.front h3{position:absolute;bottom:0;inset-inline:0;padding:14px 18px;background:var(--sand);border-top:3px solid var(--ink);font-family:var(--display);font-size:2.2rem;line-height:1}
+.back{transform:rotateY(180deg);background:var(--yellow);padding:26px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.back h3{font-family:var(--display);font-size:2.4rem;line-height:1}
+.ph{font-size:.75rem;color:var(--red);font-weight:500}
+
+/* shows */
+.shows-sec{background:var(--sand-2)}
+.posters{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1000px){.posters{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.posters{grid-template-columns:1fr}}
+.gig{position:relative;aspect-ratio:4/5;border:3px solid var(--ink);border-radius:6px;overflow:hidden;box-shadow:7px 7px 0 var(--ink);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;justify-content:space-between;padding:18px;color:var(--ink)}
+.gig:nth-child(odd){transform:rotate(-1.5deg)}.gig:nth-child(even){transform:rotate(1.2deg)}
+.gig:hover{transform:rotate(0) scale(1.04);z-index:2}
+.gig .bg{position:absolute;inset:0;z-index:-1}
+.gig .date{font-family:var(--latin);font-size:2.6rem;line-height:1}
+.gig .where{font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:.95}
+.gig .city{font-weight:700}
+.gig .stamp{position:absolute;top:16px;inset-inline-end:14px;background:var(--ink);color:var(--sand);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:999px;transform:rotate(6deg)}
+.next{margin-top:44px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--ink);color:var(--sand);border-radius:20px;padding:26px 30px}
+.next b{font-family:var(--display);font-size:2.4rem;line-height:1;color:var(--yellow)}
+
+/* gallery */
+.gallery{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 4px 26px;cursor:grab;scrollbar-width:thin;scrollbar-color:var(--orange) transparent}
+.gallery.drag{cursor:grabbing;scroll-snap-type:none}
+.gallery figure{flex:0 0 clamp(240px,30vw,360px);aspect-ratio:4/5;border:3px solid var(--ink);border-radius:16px;overflow:hidden;scroll-snap-align:start;position:relative;box-shadow:6px 6px 0 var(--ink)}
+.gallery figure .art{position:absolute;inset:0;transition:transform 1s}
+.gallery figure:hover .art{transform:scale(1.08) rotate(1deg)}
+.gallery figcaption{position:absolute;bottom:14px;inset-inline-start:14px;background:var(--sand);border:2px solid var(--ink);border-radius:999px;padding:2px 12px;font-weight:700;font-size:.85rem}
+
+/* booking */
+.book-sec{background:var(--orange)}
+.book{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:start}
+@media(max-width:900px){.book{grid-template-columns:1fr}}
+.book-info h2{font-family:var(--display);font-weight:700;font-size:clamp(3.6rem,9vw,6.5rem);line-height:.85}
+.book-info h2 span{color:var(--yellow);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+.book-info p{margin:20px 0;font-size:1.1rem}
+.mail{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem;border-bottom:3px solid var(--ink)}
+.mail svg{width:22px;height:22px;flex-shrink:0}
+form{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:var(--sand);border:3px solid var(--ink);border-radius:22px;padding:30px;box-shadow:10px 10px 0 var(--ink)}
+form .full{grid-column:1/-1}
+@media(max-width:560px){form{grid-template-columns:1fr;padding:22px}}
+label{display:block;font-weight:700;font-size:.9rem;margin-bottom:5px}
+input,select,textarea{width:100%;background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:12px 14px;color:var(--ink);font:inherit;transition:box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:none;box-shadow:4px 4px 0 var(--blue)}
+textarea{min-height:110px;resize:vertical}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.88rem}
+.consent input{width:auto;margin-top:6px}
+.consent label{font-weight:400;margin:0}
+.form-note{font-size:.8rem;opacity:.75}
+
+/* footer */
+footer{background:var(--ink);color:var(--sand);padding:70px 0 40px;text-align:center;overflow:hidden;position:relative}
+.foot-logo{font-family:var(--display);font-weight:700;font-size:clamp(5rem,16vw,12rem);line-height:.8;color:var(--yellow)}
+.foot-latin{font-family:var(--latin);color:var(--orange);letter-spacing:.1em;margin-top:6px}
+.socials{display:flex;justify-content:center;gap:14px;margin:30px 0;flex-wrap:wrap}
+.socials a{display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border:2.5px solid var(--sand);border-radius:999px;font-weight:700;transition:background .25s,color .25s,transform .25s}
+.socials a:hover{background:var(--yellow);color:var(--ink);border-color:var(--yellow);transform:translateY(-4px) rotate(-2deg)}
+.socials svg{width:22px;height:22px}
+footer small{opacity:.7}
+
+/* modal for hero listen */
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="paper" aria-hidden="true"></div>
+<div id="loader" aria-hidden="true">
+  <svg viewBox="0 0 120 60" fill="none" stroke="#2f3550" stroke-width="4" stroke-linecap="round"><path d="M4 40c14-16 30-16 44 0s30 16 44 0 22-12 24-10" /><path d="M4 52c14-12 30-12 44 0s30 12 44 0" stroke="#dfa682"/></svg>
+</div>
+<div class="cursor" aria-hidden="true"></div>
+
+<!-- shared icon sprites -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M14 8h3V4h-3c-2.8 0-4 1.8-4 4.3V10H7v4h3v8h4v-8h3l1-4h-4V8.5c0-.3.2-.5.5-.5z"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><path fill="currentColor" d="M22 8.2c-.2-1.6-1-2.6-2.6-2.8C17.2 5 12 5 12 5s-5.2 0-7.4.4C3 5.6 2.2 6.6 2 8.2 1.8 9.6 1.8 12 1.8 12s0 2.4.2 3.8c.2 1.6 1 2.6 2.6 2.8 2.2.4 7.4.4 7.4.4s5.2 0 7.4-.4c1.6-.2 2.4-1.2 2.6-2.8.2-1.4.2-3.8.2-3.8s0-2.4-.2-3.8zM10 15V9l5 3z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="m3 7 9 6 9-6" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 64 44"><path fill="currentColor" stroke="#2f3550" stroke-width="3" stroke-linejoin="round" d="M4 14l14 12L32 4l14 22 14-12-6 26H10z"/><circle cx="4" cy="12" r="4" fill="#efd595" stroke="#2f3550" stroke-width="2.5"/><circle cx="32" cy="4" r="4" fill="#efd595" stroke="#2f3550" stroke-width="2.5"/><circle cx="60" cy="12" r="4" fill="#efd595" stroke="#2f3550" stroke-width="2.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path fill="currentColor" d="M9 8.2c.2-.4.5-.4.8-.4h.4c.2 0 .4.1.5.4l.6 1.4c.1.2 0 .4-.1.6l-.5.6c.6 1.1 1.5 2 2.6 2.6l.6-.5c.2-.1.4-.2.6-.1l1.4.6c.3.1.4.3.4.5v.4c0 .3 0 .6-.4.8-.5.3-1.2.5-1.9.3-2.4-.7-4.3-2.6-5-5-.2-.7 0-1.4.3-1.9z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 4v16l13-8z"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" d="M2 20c5-6 9-6 14 0s9 6 14 0M2 12c5-6 9-6 14 0s9 6 14 0"/></symbol>
+</svg>
+
+<header>
+  <nav class="nav wrap" aria-label="ניווט ראשי">
+    <a href="#" class="logo"><svg viewBox="0 0 64 44"><use href="#i-crown"/></svg>מלכה באיה</a>
+    <ul id="menu">
+      <li><a href="#music">שירים</a></li>
+      <li><a href="#band">הלהקה</a></li>
+      <li><a href="#shows">הופעות</a></li>
+      <li><a href="#gallery">גלריה</a></li>
+      <li><a href="#booking">הזמנת הופעה</a></li>
+    </ul>
+    <div class="nav-social">
+      <a class="ico" href="https://www.instagram.com/malcabaya/" target="_blank" rel="noopener" aria-label="מלכה באיה באינסטגרם"><svg><use href="#i-ig"/></svg></a>
+      <a class="ico" href="https://www.facebook.com/malcabaya" target="_blank" rel="noopener" aria-label="מלכה באיה בפייסבוק"><svg><use href="#i-fb"/></svg></a>
+      <a class="ico" href="https://www.youtube.com/playlist?list=PLU80y1FdoRCGYGtJqizHcpnJ9Hgsv8fSS" target="_blank" rel="noopener" aria-label="מלכה באיה ביוטיוב"><svg><use href="#i-yt"/></svg></a>
+      <a class="ico" href="https://wa.me/972543004841" target="_blank" rel="noopener" aria-label="וואטסאפ ללהקה"><svg><use href="#i-wa"/></svg></a>
+    </div>
+    <button class="burger" aria-label="פתיחת תפריט" aria-expanded="false"><span></span><span></span></button>
+  </nav>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" aria-label="פתיח">
+  <div class="rays" aria-hidden="true"></div>
+  <div class="sun" id="sun" aria-hidden="true"></div>
+  <canvas id="waves" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <span class="kicker">SURF &amp; ROLL</span>
+    <svg class="crown" viewBox="0 0 64 44" aria-hidden="true"><use href="#i-crown"/></svg>
+    <h1 id="title" aria-label="מלכה באיה"><span class="l" data-t="מלכה">מלכה</span><span class="l b" data-t="באיה">באיה</span></h1>
+    <div class="latin">MALCA BAYA</div>
+    <div class="hero-ctas">
+      <button class="btn orange" id="heroPlay"><svg><use href="#i-play"/></svg>להאזנה: אם את בעניין</button>
+      <a href="#shows" class="btn yellow">הופעות</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mtrack" id="m1"></div>
+</div>
+
+<!-- MUSIC -->
+<section id="music" class="music">
+  <div class="halftone" style="opacity:.35"></div>
+  <div class="wrap" style="position:relative">
+    <div class="sec-head reveal">
+      <h2>ה<span>שירים</span></h2>
+      <p>בחרו שיר — והטלוויזיה הרטרו תתחיל לנגן. מוזיקה, גלישה ו־groovy lifestyle.</p>
+    </div>
+    <div class="music-grid">
+      <div class="tv reveal">
+        <div class="screen" id="screen" role="button" tabindex="0" aria-label="ניגון השיר הנבחר">
+          <div class="poster" id="poster">
+            <div class="duo"></div><div class="halftone"></div>
+            <div class="pbtn"><svg viewBox="0 0 24 24"><use href="#i-play"/></svg></div>
+            <div class="ptitle" id="ptitle">אם את בעניין</div>
+          </div>
+        </div>
+        <div class="tv-meta">
+          <div><b id="nowTitle">אם את בעניין</b><br><small id="nowSub">הלהיט · יותר ממיליון צפיות</small></div>
+          <div class="knobs">
+            <button id="prev" aria-label="השיר הקודם"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6v12L9 12z" transform="scale(-1,1) translate(-24,0)"/></svg></button>
+            <button id="next" aria-label="השיר הבא"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6v12L9 12z"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <ul class="tracks" id="tracks"></ul>
+    </div>
+  </div>
+</section>
+
+<div class="marquee tilt" aria-hidden="true"><div class="mtrack" id="m2" style="animation-direction:reverse"></div></div>
+
+<!-- BAND -->
+<section id="band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>ה<span>להקה</span></h2>
+      <p>לחצו על כרטיס כדי להכיר. <span class="ph">[שמות, תפקידים ותמונות — ממלאי מקום עד שנקבל את החומרים]</span></p>
+    </div>
+    <div class="members" id="members"></div>
+  </div>
+</section>
+
+<!-- SHOWS -->
+<section id="shows" class="shows-sec">
+  <div class="halftone" style="opacity:.25"></div>
+  <div class="wrap" style="position:relative">
+    <div class="sec-head reveal">
+      <h2>הופעות <span>אחרונות</span></h2>
+      <p>ככה זה נראה כשמלכה באיה עולים לבמה.</p>
+    </div>
+    <div class="posters" id="posters"></div>
+    <div class="next reveal">
+      <div><b>ההופעה הבאה בדרך</b><br>עקבו באינסטגרם ובפייסבוק כדי לשמוע ראשונים.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn yellow" href="https://www.instagram.com/malcabaya/" target="_blank" rel="noopener"><svg><use href="#i-ig"/></svg>אינסטגרם</a>
+        <a class="btn" href="https://www.facebook.com/malcabaya" target="_blank" rel="noopener"><svg><use href="#i-fb"/></svg>פייסבוק</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>חוף <span>לחוף</span></h2><p>גררו הצידה. <span class="ph">[יוחלף בתמונות אמיתיות של הלהקה]</span></p></div>
+    <div class="gallery" id="gal"></div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking" class="book-sec">
+  <div class="halftone" style="opacity:.3"></div>
+  <div class="wrap book" style="position:relative">
+    <div class="book-info reveal">
+      <h2>הזמינו<br>את <span>הגל</span></h2>
+      <p>מסיבות חוף, פסטיבלים, אירועים פרטיים ואירועי חברה — ספרו לנו על האירוע ונחזור אליכם.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+        <a class="mail" href="tel:+972543004841"><svg><use href="#i-phone"/></svg><span dir="ltr">054-300-4841</span></a>
+        <a class="mail" href="https://wa.me/972543004841" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>וואטסאפ</a>
+        <a class="mail" href="mailto:malcabaya@gmail.com"><svg><use href="#i-mail"/></svg>malcabaya@gmail.com</a>
+      </div>
+    </div>
+    <form id="bookForm" class="reveal" novalidate>
+      <div><label for="f-name">שם מלא</label><input id="f-name" name="name" required autocomplete="name"></div>
+      <div><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel"></div>
+      <div><label for="f-type">סוג אירוע</label>
+        <select id="f-type" name="type"><option>מסיבת חוף</option><option>אירוע פרטי</option><option>אירוע חברה</option><option>פסטיבל</option><option>מועדון / הופעה</option></select></div>
+      <div><label for="f-date">תאריך משוער</label><input id="f-date" name="date" type="date"></div>
+      <div class="full"><label for="f-msg">ספרו לנו על האירוע</label><textarea id="f-msg" name="msg"></textarea></div>
+      <div class="full consent"><input type="checkbox" id="f-ok" required><label for="f-ok">אני מסכים/ה שהפרטים ישמשו רק לצורך חזרה אליי בנוגע להזמנה.</label></div>
+      <div class="full"><button class="btn yellow" type="submit"><svg><use href="#i-mail"/></svg>שליחה במייל</button>
+        <p class="form-note">הלחיצה פותחת את תוכנת המייל שלכם עם הפרטים, לשליחה ל־malcabaya@gmail.com.</p></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-logo">מלכה באיה</div>
+    <div class="foot-latin">SURF &amp; ROLL</div>
+    <div class="socials">
+      <a href="https://www.instagram.com/malcabaya/" target="_blank" rel="noopener" aria-label="מלכה באיה באינסטגרם"><svg><use href="#i-ig"/></svg>אינסטגרם</a>
+      <a href="https://www.facebook.com/malcabaya" target="_blank" rel="noopener" aria-label="מלכה באיה בפייסבוק"><svg><use href="#i-fb"/></svg>פייסבוק</a>
+      <a href="https://www.youtube.com/playlist?list=PLU80y1FdoRCGYGtJqizHcpnJ9Hgsv8fSS" target="_blank" rel="noopener" aria-label="מלכה באיה ביוטיוב"><svg><use href="#i-yt"/></svg>יוטיוב</a>
+      <a href="https://wa.me/972543004841" target="_blank" rel="noopener" aria-label="וואטסאפ ללהקה"><svg><use href="#i-wa"/></svg>וואטסאפ</a>
+      <a href="tel:+972543004841" aria-label="התקשרו ללהקה 054-300-4841"><svg><use href="#i-phone"/></svg><span dir="ltr">054-300-4841</span></a>
+      <a href="mailto:malcabaya@gmail.com" aria-label="שליחת מייל ללהקה"><svg><use href="#i-mail"/></svg>מייל</a>
+    </div>
+    <small>© 2026 מלכה באיה · Malca Baya · כל הזכויות שמורות</small>
+  </div>
+</footer>
+
+<script>
+const PLAYLIST='PLU80y1FdoRCGYGtJqizHcpnJ9Hgsv8fSS';
+const TRACKS=[
+  {t:'אם את בעניין',v:'nwc0wk0zV8A',d:'3:55',sub:'הלהיט · יותר ממיליון צפיות',hit:1},
+  {t:'לא פעם',v:'DztgHdNouUs',d:'3:09'},
+  {t:'חוף לחוף',v:'-kyfmAtQmx8',d:'2:54'},
+  {t:'שמש',v:'aeSjcyE6SjA',d:'3:28'},
+  {t:'סתיו',v:'j8Sr0u8inVA',d:'3:37'},
+  {t:'משהו טהור',v:'aCdj6IrBgzM',d:'3:52'},
+  {t:'אבן יקרה',v:'7VHwrB292vo',d:'3:22'},
+  {t:'חיים גן עדן',v:'1s7uvlRQzak',d:'3:30'},
+  {t:'בערך',v:'eKcGFSIo57w',d:'2:44'},
+  {t:'מוצא אחר',v:'R31s5ehalA0',d:'4:26'},
+  {t:'תיפול החומה',v:'fLe4D9okdPQ',d:'3:37'},
+];
+const MEMBERS=[
+  {r:'שירה וגיטרה',c:['--yellow','--orange']},
+  {r:'גיטרה',c:['--sky','--purple']},
+  {r:'בס',c:['--green','--yellow']},
+  {r:'תופים',c:['--orange','--purple']},
+];
+const GIGS=[
+  {d:'28.10',w:'המלביה, פארק התחנה',c:'תל אביב',bg:['--red','--sand'],stamp:'היה מושלם!'},
+  {d:'28.09',w:'Local Break',c:'נאפו־סן, אשדוד',bg:['--yellow','--purple'],stamp:'פסטיבל גלישה'},
+  {d:'20.08',w:'יקב צובה',c:'Tzuba Nights',bg:['--sand','--yellow']},
+  {d:'11.08',w:'רותי, אורות האמנים',c:'פרדס חנה',bg:['--orange','--sky']},
+];
+
+/* loader */
+const hideLoader=()=>document.getElementById("loader").classList.add("done");
+addEventListener("DOMContentLoaded",()=>setTimeout(hideLoader,700));setTimeout(hideLoader,2500);
+
+/* marquees */
+const wave='<svg><use href="#i-wave"/></svg>';
+const m1=['מלכה באיה','<span class="en">SURF & ROLL</span>','חוף לחוף','שמש','<span class="en">GROOVY LIFESTYLE</span>','משהו טהור'];
+const m2=['רוקדים על החול','<span class="en">MALCA BAYA</span>','גלים','גיטרות','<span class="en">GOOD VIBES</span>'];
+const fill=(id,arr)=>{const s=arr.map(x=>`<span>${x}</span>${wave}`).join('');document.getElementById(id).innerHTML=s+s+s};
+fill('m1',m1);fill('m2',m2);
+
+/* cursor + riso title */
+const cur=document.querySelector('.cursor');let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;
+  const dx=(mx/innerWidth-.5)*16,dy=(my/innerHeight-.5)*12;
+  document.querySelectorAll('.hero h1 .l').forEach(l=>{l.style.setProperty('--rx',dx.toFixed(1)+'px');l.style.setProperty('--ry',dy.toFixed(1)+'px')});
+  document.getElementById('sun').style.translate=`${-dx*1.5}px ${-dy*1.5}px`;
+});
+(function loop(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;cur.style.transform=`translate(${cx-15}px,${cy-15}px)`;requestAnimationFrame(loop)})();
+document.addEventListener('mouseover',e=>cur.classList.toggle('big',!!e.target.closest('a,button,.track,.member,.screen,.gig')));
+
+/* nav */
+const header=document.querySelector('header');addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>40));
+const burger=document.querySelector('.burger'),menu=document.getElementById('menu');
+burger.onclick=()=>{const o=menu.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)};
+menu.querySelectorAll('a').forEach(a=>a.onclick=()=>{menu.classList.remove('open');burger.classList.remove('open')});
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+const watch=()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
+
+/* waves canvas */
+let cur_i=0,playing=false;
+const cv=document.getElementById('waves'),g=cv.getContext('2d');let W,H,DPR=Math.min(devicePixelRatio||1,2),tt=0,boost=0;
+function size(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;g.setTransform(DPR,0,0,DPR,0,0)}
+size();addEventListener('resize',size);
+const LAYERS=[['#cfe0ea',.18,.9],['#9fbad0',.32,1.2],['#b9aecb',.5,1.5],['#b3cbb9',.66,1.9],['#6f8fb0',.8,2.3]];
+function drawWaves(){
+  tt+=.012;g.clearRect(0,0,W,H);
+  const mxr=mx/innerWidth;
+  LAYERS.forEach(([col,yy,sp],k)=>{
+    const amp=(10+k*5)*(1+boost)+ (1-Math.abs(mxr-.5)*2)*6,base=H*yy;
+    g.beginPath();g.moveTo(0,H);
+    for(let x=0;x<=W+10;x+=10){
+      const near=Math.exp(-Math.pow((x-mx)/180,2))*(my>innerHeight*.5?18:6);
+      g.lineTo(x,base+Math.sin(x*.012+tt*sp+k*1.7)*amp+Math.sin(x*.004-tt*.6)*amp*.8-near);
+    }
+    g.lineTo(W,H);g.closePath();g.fillStyle=col;g.fill();
+    // foam line
+    g.strokeStyle='rgba(244,234,211,.7)';g.lineWidth=2;g.setLineDash([2,10]);g.stroke();g.setLineDash([]);
+  });
+  boost+=((playing?0.8:0)-boost)*.03;
+  requestAnimationFrame(drawWaves);
+}
+drawWaves();
+
+/* music (YouTube, privacy-enhanced embed, loaded only on click) */
+const tracksEl=document.getElementById('tracks'),screen=document.getElementById('screen');
+tracksEl.innerHTML=TRACKS.map((t,i)=>`<li class="track reveal" tabindex="0" data-i="${i}">
+  <span class="n">${String(i+1).padStart(2,'0')}</span>
+  <div><h3>${t.t} ${t.hit?'<span class="hit">להיט</span>':''}</h3></div>
+  <span class="d">${t.d}</span><span class="eqm"><i></i><i></i><i></i></span></li>`).join('');
+function select(i,autoplay){
+  cur_i=(i+TRACKS.length)%TRACKS.length;const t=TRACKS[cur_i];
+  document.getElementById('nowTitle').textContent=t.t;
+  document.getElementById('nowSub').textContent=t.sub||`מלכה באיה · ${t.d}`;
+  document.getElementById('ptitle').textContent=t.t;
+  if(autoplay){
+    screen.querySelector('iframe')?.remove();
+    const f=document.createElement('iframe');
+    f.src=`https://www.youtube-nocookie.com/embed/${t.v}?autoplay=1&rel=0`;
+    f.title=`מלכה באיה — ${t.t}`;f.allow='autoplay; encrypted-media; picture-in-picture';f.allowFullscreen=true;
+    screen.appendChild(f);document.getElementById('poster').style.opacity=0;playing=true;
+  }
+  tracksEl.querySelectorAll('.track').forEach((li,k)=>{li.classList.toggle('active',k===cur_i);li.classList.toggle('on',k===cur_i&&playing)});
+}
+tracksEl.querySelectorAll('.track').forEach(li=>{const i=+li.dataset.i;li.onclick=()=>select(i,true);li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i,true)}}});
+screen.onclick=()=>{if(!screen.querySelector('iframe'))select(cur_i,true)};
+screen.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&!screen.querySelector('iframe')){e.preventDefault();select(cur_i,true)}};
+document.getElementById('next').onclick=()=>select(cur_i+1,true);
+document.getElementById('prev').onclick=()=>select(cur_i-1,true);
+document.getElementById('heroPlay').onclick=()=>{document.getElementById('music').scrollIntoView({behavior:'smooth'});setTimeout(()=>select(0,true),500)};
+select(0,false);
+
+/* members */
+const SILH='<svg class="silh" viewBox="0 0 100 120"><circle cx="50" cy="34" r="20" fill="currentColor"/><path d="M12 120c0-30 17-50 38-50s38 20 38 50z" fill="currentColor"/></svg>';
+document.getElementById('members').innerHTML=MEMBERS.map((m,i)=>`
+<div class="member reveal" tabindex="0" role="button" aria-label="חבר/ת להקה — ${m.r}">
+  <div class="mi">
+    <div class="face front"><div class="art" style="background:radial-gradient(circle at 70% 25%,var(${m.c[0]}) 0 22%,transparent 23%),repeating-linear-gradient(${20+i*30}deg,var(${m.c[1]}) 0 14px,var(${m.c[0]}) 14px 28px)"></div>
+      <div class="halftone"></div>${SILH}<span class="tag">${m.r}</span><span class="flip">+</span><h3>[שם]</h3></div>
+    <div class="face back"><small style="font-weight:700">${m.r}</small><h3>[שם]</h3><p>[ביוגרפיה קצרה — תתעדכן כשנקבל את החומרים מהלהקה]</p></div>
+  </div></div>`).join('');
+document.querySelectorAll('.member').forEach(el=>{
+  const mi=el.querySelector('.mi'),flip=()=>{el.classList.toggle('flipped');mi.style.transform=''};
+  el.onclick=flip;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
+  el.onmousemove=e=>{if(el.classList.contains('flipped'))return;const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;mi.style.transform=`rotateY(${x*16}deg) rotateX(${-y*16}deg)`};
+  el.onmouseleave=()=>{if(!el.classList.contains('flipped'))mi.style.transform=''};
+});
+
+/* gig posters */
+document.getElementById('posters').innerHTML=GIGS.map((s,i)=>`<article class="gig reveal">
+  <div class="bg" style="background:${i%2?`linear-gradient(160deg,var(${s.bg[0]}) 0 55%,var(${s.bg[1]}) 55%)`:`radial-gradient(circle at 75% 30%,var(${s.bg[1]}) 0 26%,transparent 27%),var(${s.bg[0]})`}"></div>
+  <div class="halftone"></div>
+  ${s.stamp?`<span class="stamp">${s.stamp}</span>`:''}
+  <div class="date">${s.d}</div>
+  <div><div class="where">${s.w}</div><div class="city">${s.c}</div></div></article>`).join('');
+
+/* gallery (riso placeholder art) */
+const GAL=[['--blue','--yellow','על הגל'],['--orange','--purple','על הבמה'],['--green','--sky','בחזרות'],['--purple','--yellow','שקיעה'],['--red','--sand','מאחורי הקלעים'],['--sky','--orange','בדרך לים']];
+document.getElementById('gal').innerHTML=GAL.map(([a,b,c],i)=>`<figure><div class="art" style="background:radial-gradient(circle at ${30+i*8}% 30%,var(${b}) 0 20%,transparent 21%),repeating-radial-gradient(circle at 50% 120%,var(${a}) 0 18px,var(${b}) 18px 22px)"></div><div class="halftone"></div><figcaption>${c}</figcaption></figure>`).join('');
+const gal=document.getElementById('gal');let down=false,sx,sl;
+gal.onmousedown=e=>{down=true;sx=e.pageX;sl=gal.scrollLeft;gal.classList.add('drag')};
+addEventListener('mouseup',()=>{down=false;gal.classList.remove('drag')});
+gal.onmousemove=e=>{if(!down)return;e.preventDefault();gal.scrollLeft=sl-(e.pageX-sx)*1.4};
+
+watch();
+
+/* booking form → opens the visitor's mail app (nothing is stored or sent by the site) */
+document.getElementById('bookForm').onsubmit=e=>{e.preventDefault();const f=e.target;
+  if(!f.checkValidity()){f.reportValidity();return}
+  const v=n=>f.elements[n].value.trim();
+  const body=`שם: ${v('name')}\nטלפון: ${v('phone')}\nסוג אירוע: ${v('type')}\nתאריך: ${v('date')}\n\n${v('msg')}`;
+  location.href=`mailto:malcabaya@gmail.com?subject=${encodeURIComponent('הזמנת הופעה — '+v('type'))}&body=${encodeURIComponent(body)}`;
+};
+</script>
+</body>
+</html>
